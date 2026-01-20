@@ -7,7 +7,7 @@
     <title>@yield('title', 'Social Media App')</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{asset('bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
@@ -75,7 +75,7 @@
 <!-- HEADER -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-       <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="#">
+       <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="{{route('index')}}">
     <i class="fa-solid fa-comment-dots" style="color:#fff;"></i>
     <span>Connectly</span>
 </a>
@@ -101,15 +101,22 @@
                     <a class="nav-link" href="{{route('register')}}">Register</a>
                 </li>
 
+                @auth
+
                 <!-- Notifications -->
                 <li class="nav-item position-relative ms-3">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('notifications')}}" class="nav-link">
                         <i class="fa fa-bell fa-lg"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            3
+
+
+
+                                {{Auth::user()->notifications(Auth::user()->id)->count()}}
+
                         </span>
                     </a>
                 </li>
+
 
                 <!-- User dropdown -->
                 <li class="nav-item dropdown ms-2">
@@ -122,6 +129,8 @@
                         <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
                     </ul>
                 </li>
+                                                @endauth
+
             </ul>
 
         </div>

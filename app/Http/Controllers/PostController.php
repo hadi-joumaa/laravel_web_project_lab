@@ -25,6 +25,7 @@ class PostController extends Controller
             'user_id' => Auth::id(),
         ]);
        if($post){
+
             return redirect()->route('index')->with("success","Post Created Successfully");
        }
        return redirect()->route('index')->with("error","something went wrong");
@@ -45,39 +46,5 @@ class PostController extends Controller
 
 
     }
-    public function comment(Request $request){
-        $validated = $request->validate([
-            'post_id' => ['required'],
-            'commentContent' => ['required']
-        ]);
-        $post = Post::findOrFail($validated['post_id']);
-        $receiverId = $post->user->id;
-        $senderId = Auth::user()->id;
-        $commentContent = $validated['commentsContent'];
-        $comment = Comment::create([
-            'sender_id' => $senderId,
-            'receiver_id' => $receiverId,
-            'post_id' => $post->id,
-            'parent_id' => null,
-            'content' => $commentContent
-        ]);
-        if($comment){
-             return response()->json([
-            'comments' => '<div class="d-flex gap-2">
-                                    <div class="bg-light rounded p-2 w-100">
-                                        <strong>' .$post->user->name . '</strong>
-                                        <p class="mb-1">' . $commentContent . '</p>
-                                        <small class="text-muted">
-                                            2 minutes ago · <a href="#" class="reply-btn">Reply</a>
-                                        </small>
-                                    </div>
-                                </div>'
-        ]);
-
-
-        }
-
-        return response()->json(['error' => 'err']);
-
-    }
+    
 }

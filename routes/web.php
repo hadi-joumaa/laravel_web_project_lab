@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\ProfileController; // ADD THIS
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', [AuthController::class, 'HomePage'])->name('index');
 Route::get('/register', [AuthController::class, 'RegisterPage'])->name('register');
@@ -19,4 +21,6 @@ Route::get('/profile/{id}', [ProfileController::class, 'profilePage'])->name('pr
 Route::post('/like',[LikeController::class,'likeToggle'])->name('like');
 Route::get('/post/delete/{id}',[PostController::class,'deletePost']);
 Route::get('/logout',[PostController::class,'logout'])->name('logout');
-Route::post('/comment',[PostController::class,'comment'])->name('comment');
+Route::post('/addFriend',[FriendController::class,'addFriend'])->name('addFriend');
+Route::post('/addFriend',[FriendController::class,'addFrienddecide'])->name('addFriend');
+Route::get('/notifications',[NotificationController::class,'notificationPage'])->name('notifications');

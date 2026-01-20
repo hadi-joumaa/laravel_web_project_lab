@@ -53,4 +53,17 @@ class User extends Authenticatable
         $Likes = Like::where('receiver_id',$id)->count();
         return $Likes;
     }
+    public function notifications($id){
+        $notifications = Notification::where('receiver_id',$id)->where('isread',false);
+        return $notifications;
+    }
+   public function checkFriendStatus($sender_id, $receiver_id)
+{
+    $friend = Friend::where('sender_id', $sender_id)
+        ->where('receiver_id', $receiver_id)
+        ->first();
+
+    return $friend?->status; // returns null if not found
+}
+
 }
