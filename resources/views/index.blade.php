@@ -45,8 +45,10 @@
                                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
                             </div>
 
+
                             @if (Auth::user()->id == $post->user->id)
                                 <div class="dropdown">
+
                                     <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
                                         <i class="fa fa-ellipsis"></i>
                                     </button>
@@ -58,14 +60,20 @@
                                     </ul>
                                 </div>
                             @endif
+                            @if (Auth::user()->id != $post->user->id)
+                                <button class="btn btn-sm btn-primary d-flex align-items-center gap-1 addFriendBtn" data-user-id="{{$post->user->id}}">
+                                    <i class="fa fa-user-plus" ></i> Add Friend
+                                </button>
+                            @endif
 
                         </div>
 
                         <!-- Post Image (optional) -->
+                        @if($post->image_url)
                         <div class="mb-3">
-                            <img src="{{ asset('storage/' . $post->image_url) }}" class="img-fluid rounded"
-                                alt="Post Image">
+                            <img src="{{ asset('storage/' . $post->image_url) }}" class="img-fluid rounded">
                         </div>
+                        @endif
                         <!-- Post Content -->
                         <p>
                             {{ $post->content }}
@@ -79,167 +87,13 @@
                                 <i class="fa fa-heart"></i> <span class="likes-count">{{ $post->likes()->count() }}</span>
 
                             </button>
-                            <button class="btn btn-sm btn-primary view-comments-btn" data-post-id="{{ $post->id }}"
-                                data-bs-toggle="modal" data-bs-target="#commentsModal">
-                                <i class="fa fa-comment"></i> View
-                            </button>
 
                         </div>
 
                     </div>
                 </div>
-                  <!-- Comments Modal -->
-            <div class="modal fade" id="commentsModal" tabindex="-1">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
 
-                        <!-- Header -->
-                        <div class="modal-header">
-                            <h5 class="modal-title">Comments</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-
-                        <!-- Add Comment -->
-                        <div class="mb-3">
-                            <textarea id="newCommentContent{{$post->id}}" class="form-control" rows="2" placeholder="Write a comment..."></textarea>
-                            <button class="btn btn-primary btn-sm mt-2 addCommentBtn" data-post-id="{{$post->id}}">
-                                Comment
-                            </button>
-                        </div>
-
-                        <hr>
-
-                        <div class="modal-body" id="commentsBody{{$post->id}}">
-                            <div class="mb-3">
-
-                                <div class="d-flex gap-2">
-                                    <div class="bg-light rounded p-2 w-100">
-                                        <strong>John Doe</strong>
-                                        <p class="mb-1">This is a main comment example.</p>
-                                        <small class="text-muted">
-                                            2 minutes ago · <a href="#" class="reply-btn">Reply</a>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <!-- Reply Input -->
-                                <div class="reply-box mt-2 ms-5">
-                                    <textarea class="form-control" rows="2" placeholder="Write a reply..."></textarea>
-                                    <button class="btn btn-sm btn-primary mt-1">
-                                        Reply
-                                    </button>
-                                </div>
-
-                                <!-- Replies -->
-                                <div class="ms-5 mt-2">
-
-                                    <div class="d-flex gap-2 mb-2">
-                                        <div class="bg-light rounded p-2 w-100">
-                                            <strong>Sarah Ali</strong>
-                                            <p class="mb-1">This is a reply to the comment.</p>
-                                            <small class="text-muted">1 minute ago</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex gap-2 mb-2">
-                                        <div class="bg-light rounded p-2 w-100">
-                                            <strong>Ahmed Hassan</strong>
-                                            <p class="mb-1">Another reply example.</p>
-                                            <small class="text-muted">Just now</small>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Footer -->
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
             @endforeach
-
-            <!-- Comments Modal -->
-            <div class="modal fade" id="commentsModal" tabindex="-1">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
-
-                        <!-- Header -->
-                        <div class="modal-header">
-                            <h5 class="modal-title">Comments</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-
-                        <!-- Add Comment -->
-                        <div class="mb-3">
-                            <textarea id="newCommentContent" class="form-control" rows="2" placeholder="Write a comment..."></textarea>
-                            <button class="btn btn-primary btn-sm mt-2 addCommentBtn">
-                                Comment
-                            </button>
-                        </div>
-
-                        <hr>
-
-                        <div class="modal-body" id="commentsBody">
-                            <div class="mb-3">
-
-                                <div class="d-flex gap-2">
-                                    <div class="bg-light rounded p-2 w-100">
-                                        <strong>John Doe</strong>
-                                        <p class="mb-1">This is a main comment example.</p>
-                                        <small class="text-muted">
-                                            2 minutes ago · <a href="#" class="reply-btn">Reply</a>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <!-- Reply Input -->
-                                <div class="reply-box mt-2 ms-5">
-                                    <textarea class="form-control" rows="2" placeholder="Write a reply..."></textarea>
-                                    <button class="btn btn-sm btn-primary mt-1">
-                                        Reply
-                                    </button>
-                                </div>
-
-                                <!-- Replies -->
-                                <div class="ms-5 mt-2">
-
-                                    <div class="d-flex gap-2 mb-2">
-                                        <div class="bg-light rounded p-2 w-100">
-                                            <strong>Sarah Ali</strong>
-                                            <p class="mb-1">This is a reply to the comment.</p>
-                                            <small class="text-muted">1 minute ago</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex gap-2 mb-2">
-                                        <div class="bg-light rounded p-2 w-100">
-                                            <strong>Ahmed Hassan</strong>
-                                            <p class="mb-1">Another reply example.</p>
-                                            <small class="text-muted">Just now</small>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Footer -->
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
 
             <!-- Pagination -->
             <div class="d-flex justify-content-center">
@@ -338,28 +192,6 @@
 
         });
 
-        document.querySelectorAll('.addCommentBtn').forEach((btn) =>{
-            btn.addEventListener('click',(e) => {
-                const btn = e.currentTarget;
-                const post_id = btn.dataset.postId;
-                let commentContent = document.getElementById('newCommentContent' + post_id).value;
-                fetch('{{route('comment')}}',{
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            'post_id' : post_id,
-                            'commentContent' : commentContent
-                        })
-                    }).then(response => response.json()).then(function (data){
-                        let modalId = "commentsBody" + post_id;
-                        document.getElementById(modalId).append(data.comments);
-                        console.log(data.error);
-                    });
-            });
-        });
+
     </script>
 @endsection
